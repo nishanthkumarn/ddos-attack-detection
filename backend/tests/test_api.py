@@ -13,8 +13,8 @@ def test_predict():
 def test_evaluate_labeled_csv_reports_confusion_counts(monkeypatch):
     from app.main import detector
 
-    async def idle_stream(stop_event):
-        await stop_event.wait()
+    async def idle_stream(_stop_event):
+        return
 
     def fake_predict(features):
         probability = 0.9 if float(features['Flow Packets/s']) >= 100 else 0.1
@@ -50,7 +50,14 @@ def test_evaluate_labeled_csv_reports_confusion_counts(monkeypatch):
     assert result['results'][3]['actual_class'] == 'BENIGN'
 
 
-def test_evaluate_csv_requires_label_column():
+def test_evaluate_csv_requires_label_column(monkeypatch):
+    from app.main import detector
+
+    async def idle_stream(_stop_event):
+        return
+
+    monkeypatch.setattr(detector, 'model', object())
+    monkeypatch.setattr('app.main.stream_loop', idle_stream)
     with TestClient(app) as client:
         response = client.post(
             '/api/evaluate/csv',
@@ -58,6 +65,19 @@ def test_evaluate_csv_requires_label_column():
         )
 
     assert response.status_code == 422
+
+
+def test_evaluate_csv_requires_trained_model(monkeypatch):
+    from app.main import detector
+
+    monkeypatch.setattr(detector, 'model', None)
+    with TestClient(app) as client:
+        response = client.post(
+            '/api/evaluate/csv',
+            files={'file': ('flows.csv', b'Label\nBENIGN\n', 'text/csv')},
+        )
+
+    assert response.status_code == 503
 
 
 def test_synthesized_flow_includes_protocol_and_ports():
