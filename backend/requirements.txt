@@ -1,0 +1,21 @@
+fastapi==0.142.2
+uvicorn[standard]==0.53.0
+pydantic==2.12.5
+pydantic-settings==2.15.0
+numpy==2.5.3
+pandas==3.0.6
+scikit-learn==1.9.1
+joblib==1.6.0
+river==0.26.1
+python-multipart==0.0.20
+httpx==0.28.1
+pytest==8.4.2
+pytest-asyncio==1.2.0
+ruff==0.13.2
+prometheus-client==0.26.0
+scapy==2.7.0
+psycopg[binary]==3.3.6
+redis==8.1.0
+PyJWT==2.15.1
+
+# Optional capture/production integrations are intentionally kept in the same reproducible env.

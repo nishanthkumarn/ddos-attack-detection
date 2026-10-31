@@ -1,0 +1,53 @@
+services:
+  postgres:
+    image: postgres:18.6-alpine
+    environment:
+      POSTGRES_DB: ddos
+      POSTGRES_USER: ddos
+      POSTGRES_PASSWORD: ddos_dev_only
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ddos -d ddos"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  redis:
+    image: redis:8.10.1-alpine
+    volumes: [redis_data:/data]
+  backend:
+    build: {context: ., target: backend}
+    ports: ["8000:8000"]
+    volumes: ["./data:/app/data", "./models:/app/models"]
+    environment:
+      CORS_ORIGINS: http://localhost:5173,http://localhost:8080
+      DATABASE_URL: postgresql://ddos:ddos_dev_only@postgres:5432/ddos
+      REDIS_URL: redis://redis:6379/0
+      ENVIRONMENT: production
+      API_KEY: change-me-in-production
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_started}
+    restart: unless-stopped
+  frontend:
+    build: {context: ., target: frontend}
+    ports: ["8080:80"]
+    depends_on: [backend]
+    restart: unless-stopped
+  prometheus:
+    image: prom/prometheus:v3.8.1
+    ports: ["9090:9090"]
+    volumes: ["./deploy/prometheus.yml:/etc/prometheus/prometheus.yml:ro"]
+    depends_on: [backend]
+  grafana:
+    image: grafana/grafana:13.2.2
+    ports: ["3000:3000"]
+    depends_on: [prometheus]
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./deploy/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./deploy/grafana/dashboards:/var/lib/grafana/dashboards:ro
+
+volumes:
+  postgres_data:
+  redis_data:
+  grafana_data:

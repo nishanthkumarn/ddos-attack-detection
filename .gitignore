@@ -1,0 +1,20 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.env
+node_modules/
+dist/
+*.db
+models/*.joblib
+models/*.json
+data/*.sqlite3*
+*.tsbuildinfo
+/package-lock.json
+/ddos-attack-detection/
+/frontend/ddos-attack-detection/
+# Dataset files are intentionally local; do not commit multi-GB data.
+data/raw/*.csv
+data/raw/**/*.csv
+data/processed/*

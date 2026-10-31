@@ -1,0 +1,10 @@
+apiVersion: 1
+providers:
+  - name: DDoS SOC
+    orgId: 1
+    folder: CyberLab
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards

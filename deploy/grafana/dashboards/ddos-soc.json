@@ -1,0 +1,14 @@
+{
+  "title":"DDoS SOC Telemetry",
+  "uid":"ddos-soc",
+  "schemaVersion":39,
+  "version":1,
+  "refresh":"5s",
+  "panels":[
+    {"type":"timeseries","title":"Inference Latency","gridPos":{"x":0,"y":0,"w":12,"h":7},"targets":[{"expr":"rate(ddos_inference_seconds_sum[5m]) / rate(ddos_inference_seconds_count[5m])","legendFormat":"avg latency"}]},
+    {"type":"timeseries","title":"Events by Class","gridPos":{"x":12,"y":0,"w":12,"h":7},"targets":[{"expr":"sum by (label) (rate(ddos_events_total[5m]))","legendFormat":"{{label}}"}]},
+    {"type":"timeseries","title":"Alerts by Severity","gridPos":{"x":0,"y":7,"w":12,"h":7},"targets":[{"expr":"sum by (severity) (rate(ddos_alerts_total[5m]))","legendFormat":"{{severity}}"}]},
+    {"type":"stat","title":"Connected WebSockets","gridPos":{"x":12,"y":7,"w":6,"h":7},"targets":[{"expr":"ddos_websocket_clients"}]},
+    {"type":"stat","title":"Drift Rate","gridPos":{"x":18,"y":7,"w":6,"h":7},"targets":[{"expr":"ddos_feature_drift_rate"}]}
+  ]
+}

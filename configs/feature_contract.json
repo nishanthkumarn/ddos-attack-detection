@@ -1,0 +1,10 @@
+{
+  "dataset": "CICDDoS2019",
+  "extractor": "CICFlowMeter-compatible",
+  "label": {"negative": "BENIGN", "positive": "DDoS"},
+  "notes": [
+    "The model consumes numeric CICFlowMeter flow features stored in its artifact.",
+    "Source/destination identifiers are telemetry metadata and are not automatically trusted as model features.",
+    "Do not feed raw packets directly into the classifier; extract the same flow schema first."
+  ]
+}
