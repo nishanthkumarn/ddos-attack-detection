@@ -162,7 +162,6 @@ def synthetic_features():
         duration = rng.uniform(20.0, 2500.0)
 
         pps = rng.uniform(20_000.0, 180_000.0)
-        avg_packet = rng.uniform(48.0, 1100.0)
 
         total_packets = max(
             2.0,
@@ -214,7 +213,6 @@ def synthetic_features():
         duration = rng.uniform(100.0, 180_000.0)
 
         pps = rng.uniform(10.0, 2500.0)
-        avg_packet = rng.uniform(60.0, 1400.0)
 
         total_packets = max(
             2.0,

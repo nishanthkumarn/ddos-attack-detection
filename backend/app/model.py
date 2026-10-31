@@ -3,7 +3,6 @@ from __future__ import annotations
 from datetime import datetime, timezone
 import math
 from pathlib import Path
-import time
 from typing import Any
 import uuid
 import joblib
@@ -150,6 +149,9 @@ class Detector:
                 features[clean] = 0.0
 
         # Override with exact flow input
+        features["Protocol"] = protocol_num
+        features["Source Port"] = src_port
+        features["Destination Port"] = dst_port
         features["Flow Duration"] = duration
         features["Total Fwd Packets"] = tot_fwd
         features["Total Backward Packets"] = tot_bwd
@@ -275,7 +277,6 @@ class Detector:
     def generate_recommendations(self, attack_type: str, target: dict[str, Any]) -> list[str]:
         recs = []
         dst_port = target.get("dst_port", 80)
-        proto = target.get("protocol", "TCP")
         src_ip = target.get("src_ip", "0.0.0.0")
 
         if "SYN" in attack_type:
@@ -286,7 +287,7 @@ class Detector:
         elif "Amplification" in attack_type or "Reflection" in attack_type or "UDP" in attack_type:
             recs.append(f"Apply upstream BGP Flowspec rule to filter incoming UDP port {dst_port} fragments.")
             recs.append("Engage ISP upstream scrubbing center to filter reflection response vectors.")
-            recs.append(f"Rate-limit UDP ingress on border router to 5% of interface capacity: limit burst 50/sec.")
+            recs.append("Rate-limit UDP ingress on border router to 5% of interface capacity: limit burst 50/sec.")
             recs.append("Block unsolicited incoming high-volume UDP traffic at edge firewall.")
         elif "Slowloris" in attack_type:
             recs.append("Set aggressive HTTP request header timeout and minimum data transfer rate (e.g. mod_reqtimeout).")
@@ -362,7 +363,6 @@ class Detector:
         dst_port = int(user_input.get("dst_port", 80))
         syn_count = float(user_input.get("syn_flag_count", 0.0))
         ack_count = float(user_input.get("ack_flag_count", 0.0))
-        tot_fwd = float(user_input.get("total_fwd_packets", 0.0))
         tot_bwd = float(user_input.get("total_bwd_packets", 0.0))
 
         # Heuristic risk assessment

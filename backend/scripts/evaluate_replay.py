@@ -1,10 +1,12 @@
 """Evaluate an exported labeled flow CSV against the trained artifact without mutating the database."""
 from __future__ import annotations
-import argparse, json
+import argparse
+import json
 from pathlib import Path
-import joblib, numpy as np, pandas as pd
+import joblib
+import numpy as np
+import pandas as pd
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score, average_precision_score
-from app.flow_schema import normalize
 
 
 def main():

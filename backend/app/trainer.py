@@ -6,13 +6,10 @@ and dynamic live model reloading.
 """
 from __future__ import annotations
 
-import asyncio
 from datetime import datetime, timezone
 import json
 import logging
-import os
 from pathlib import Path
-import random
 import threading
 import time
 from typing import Any
@@ -26,17 +23,14 @@ from sklearn.impute import SimpleImputer
 from sklearn.inspection import permutation_importance
 from sklearn.metrics import (
     average_precision_score,
-    classification_report,
     confusion_matrix,
     f1_score,
-    precision_recall_curve,
     precision_score,
     recall_score,
     roc_auc_score,
 )
 from sklearn.model_selection import train_test_split
 
-from .config import settings
 from .model import detector
 
 log = logging.getLogger("ddos-trainer")

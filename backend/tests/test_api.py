@@ -58,3 +58,15 @@ def test_evaluate_csv_requires_label_column():
         )
 
     assert response.status_code == 422
+
+
+def test_synthesized_flow_includes_protocol_and_ports():
+    from app.main import detector
+
+    features = detector.synthesize_flow_vector(
+        {'protocol': 'UDP', 'src_port': 53000, 'dst_port': 53}
+    )
+
+    assert features['Protocol'] == 17.0
+    assert features['Source Port'] == 53000.0
+    assert features['Destination Port'] == 53.0

@@ -19,12 +19,6 @@ import numpy as np
 import pandas as pd
 import warnings
 from sklearn.calibration import CalibratedClassifierCV
-
-warnings.filterwarnings(
-    "ignore",
-    message=r"Columns .* have mixed types.*",
-    category=pd.errors.DtypeWarning,
-)
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.impute import SimpleImputer
 from sklearn.inspection import permutation_importance
@@ -37,6 +31,12 @@ from sklearn.metrics import (
     roc_auc_score,
 )
 from sklearn.model_selection import StratifiedGroupKFold, train_test_split
+
+warnings.filterwarnings(
+    "ignore",
+    message=r"Columns .* have mixed types.*",
+    category=pd.errors.DtypeWarning,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 RAW = ROOT / "data" / "raw"

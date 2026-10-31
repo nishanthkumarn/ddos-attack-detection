@@ -1,4 +1,6 @@
-import sys, time, urllib.request, json
+import sys
+import urllib.request
+import json
 base='http://127.0.0.1:8000'
 try:
     with urllib.request.urlopen(base+'/health',timeout=3) as r: assert r.status==200

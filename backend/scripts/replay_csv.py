@@ -1,7 +1,10 @@
 """Replay a CICFlowMeter-compatible CSV into the running detection API."""
 from __future__ import annotations
-import argparse, asyncio, os
-import httpx, pandas as pd
+import argparse
+import asyncio
+import os
+import httpx
+import pandas as pd
 
 LABELS={"Label","label","Class","class","Target","target"}
 META={"Flow ID","Src IP","Dst IP","Src Port","Dst Port","Protocol","Timestamp","Label","label","Class","class","Target","target"}

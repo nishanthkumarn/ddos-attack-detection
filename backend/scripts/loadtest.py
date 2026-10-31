@@ -1,5 +1,8 @@
 """Small dependency-free smoke/load test. Start the API first."""
-import concurrent.futures, json, time, urllib.request
+import concurrent.futures
+import json
+import time
+import urllib.request
 URL='http://127.0.0.1:8000/api/predict'; N=200; WORKERS=20
 body=json.dumps({'features':{'pps':35000,'bps':9000000}}).encode(); headers={'Content-Type':'application/json'}
 def one(_):

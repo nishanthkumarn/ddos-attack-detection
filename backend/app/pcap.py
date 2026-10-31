@@ -4,9 +4,7 @@ For model parity, generate CICFlowMeter CSV first and replay that CSV. PCAP mode
 intentionally marked `pcap_approximation`: it demonstrates packet-to-flow plumbing,
 not exact CICFlowMeter feature parity.
 """
-from collections import defaultdict
 from dataclasses import dataclass
-from pathlib import Path
 import time
 
 @dataclass
